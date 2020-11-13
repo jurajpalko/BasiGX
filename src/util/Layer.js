@@ -279,13 +279,17 @@ Ext.define('BasiGX.util.Layer', {
                     'No ol.layer.Group given to ' +
                     'BasiGX.util.Layer.cascadeLayers. It is unlikely that ' +
                     'this will work properly. Skipping!');
-                return null;
+                return;
+            }
+            if(!Ext.isFunction(fn)){
+                Ext.Logger.warn(
+                    'No function passed ' +
+                    'this will not work. Skipping!');
+                return;
             }
 
             lyrGroup.getLayers().forEach(function(layerOrGroup) {
-                if (Ext.isFunction(fn)) {
-                    fn(layerOrGroup);
-                }
+                fn(layerOrGroup);
                 if (layerOrGroup instanceof ol.layer.Group) {
                     BasiGX.util.Layer.cascadeLayers(layerOrGroup, fn);
                 }
